@@ -1,0 +1,42 @@
+// ==UserScript==
+// @name         YandexBot
+// @namespace    https://auto.ru/
+// @version      0.1
+// @description  try to take over the world!
+// @author       BigShow
+// @match        http://https://yandex.ru/*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @grant        none
+// ==/UserScript==
+
+let keywords = ["бу авто", "купить авто"];
+let keyword = keywords[getRandom(0, keywords.length)];
+let btn = document.getElementsByClassName("button mini-suggest__button button_theme_search button_size_search i-bem button_js_inited button_hovered_yes")[0];
+let input = document.getElementById("text");
+let links = document.links;
+
+if(btn !== undefined) {
+  let i = 0;
+  keyword = "купить авто";
+  let timerId = setInterval(function() {
+      input.value += keyword[i];
+      i++;
+    if (i == keyword.length) {
+        clearInterval(timerId);
+    }
+  },1000);
+  btn.click();
+} else {
+  for (let i = 0; i < links.length; i++) {
+    if (links[i].href.indexOf("auto.ru") !== -1) {
+      let link = links[i];
+      console.log("Нашел строку" + links[i]);
+      link.click();
+      break;
+    }
+  }
+}
+
+function getRandom(min, max) {
+return Math.floor(Math.random() * (max - min) + min);
+}
